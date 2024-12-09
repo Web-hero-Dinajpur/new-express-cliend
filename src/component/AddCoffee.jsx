@@ -1,4 +1,4 @@
-import React from 'react';
+import Swal from 'sweetalert2'
 
 const AddCoffee = () => {
 
@@ -19,17 +19,26 @@ const AddCoffee = () => {
         console.log(newCoffee);
 
         //send data to the server
-        fetch('http://localhost:5000/coffee',{
+        fetch('http://localhost:5000/coffee', {
             method: 'POST',
-            headers:{
-                'content-type':'application/json'
+            headers: {
+                'content-type': 'application/json'
             },
+            body: JSON.stringify(newCoffee)
         })
-        .then(res => res.json())
-        .then(data =>{
-            console.log(data) 
-        })
-    
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                if (data.insertedId) {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'User Added Successfully',
+                        icon: 'success',
+                        confirmButtonText: 'Cool'
+                    })
+                }
+            })
+
     }
 
     return (
